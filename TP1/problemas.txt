@@ -1,8 +1,5 @@
 PROBLEMAS PROPUESTOS PARA ENTREGAR
 
-link a repositorio en github:
-
-
 1.
 etiquetas: dato, main
 directivas: .data, .byte, .text, .glob
