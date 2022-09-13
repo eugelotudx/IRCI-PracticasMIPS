@@ -1,0 +1,431 @@
+Práctica 2 MIPS r2000
+
+Cuestiones
+----------
+Módulo 1
+
+1.1:
+res: 0x00000001
+
+1.2:
+res: 0x00000000
+
+1.3:
+dato1 < dato2
+
+1.4:
+.data
+dato1: .word 50
+dato2: .word 20
+res: .space 1
+.text
+main:
+lw $t0,dato1($0)
+lw $t1,dato2($0)
+seq $t2,$t0, $t1
+sb $t2,res($0)
+
+1.5:
+.data
+dato1: .word 50
+dato2: .word 20
+res: .space 1
+.text
+main:
+lw $t0,dato1($0) # cargar dato1 en t0
+lw $t1,dato2($0) # cargar dato2 en t1
+sge $t2,$t0, $t1 
+sle $t3,$t0, $t1 
+and $t4, $t2, $t3
+sb $t4,res($0) # almacenar $t2 en res
+
+1.6:
+res: 0x00000001
+
+1.7:
+res: 0x00000000
+
+1.8:
+res: 0x00000001
+
+1.9:
+dato1 <= dato2
+
+1.10:
+.data
+dato1: .word 30
+dato2: .word 40
+res: .space 1
+.text
+main:
+ lw $t0,dato1($0) # cargar dato1 en t0
+ lw $t1, dato2($0) # cargar dato2 en t1
+ sle $t2, $t0, $t1 
+ sb $t2,res($0) # almacenar $t2 en res
+
+1.11:
+.data
+dato1: .word 40
+dato2: .word 40
+res: .space 1
+.text
+main: lw $t0,dato1($0) # cargar dato1 en t0
+ lw $t1, dato2($0) # cargar dato2 en t1
+ slt $t2, $t1, $t0 
+ bne $t0, $t1, fineval
+ ori $t2, $0, 1
+ fineval: sb $t2,res($0) # almacenar $t2 en res
+
+1.12:
+.data
+dato1: .word 50
+dato2: .word 40
+res: .space 1
+.text
+main:
+ lw $t0,dato1($0) # cargar dato1 en t0
+ lw $t1, dato2($0) # cargar dato2 en t1
+ sge $t2, $t0, $t1
+ sb $t2,res($0) # almacenar $t2 en res
+
+1.13:
+res: 0x00000001
+
+1.14:
+res: 0x00000000
+
+1.15:
+res: 0x00000000
+
+1.16:
+res: 0x00000000
+
+1.17:
+dato1 != 0 && dato2 != 0
+
+1.18:
+.data
+dato1: .word 40
+dato2: .word -50
+res: .space 1
+.text
+main:
+lw $t8,dato1($0)
+lw $t9,dato2($0)
+and $t0,$t0,$0 #guarda 0 en $t0
+and $t1,$t1,$0 #guarda 0 en $t1
+beq $t8,$0,igual #si dato1 es 0 salta a igual
+ori $t0,$0,1 #sino, carga 1 en $t0. $t0 = 1 si dato1 != 0
+igual: beq $t9,$8,fineval #si dato2 es igual a dato1, salta a fineval
+ori $t1,$0,1 #sino, carga 1 en $t1. $t1 = 1 si dato2 != dato1
+fineval: and $t0,$t0,$t1 
+sb $t0,res($0) #Guarda la respuesta en res
+
+1.19:
+res: 0x00000001
+
+1.20:
+res: 0x00000000
+
+1.21:
+res: 0x00000000
+
+1.22:
+dato1 != 0 && dato2 < dato1
+
+1.23:
+.data
+dato1: .word 30
+dato2: .word -50
+res: .space 1
+.text
+main:
+lw $t8,dato1($0)
+lw $t9,dato2($0)
+and $t0,$t0,$0
+slt $t0,$t8,$t9
+sb $t0,res($0)
+
+1.24:
+.data
+dato1: .word 30
+dato2: .word -50
+res: .space 1
+.text
+main: lw $t8,dato1($0)
+lw $t9,dato2($0)
+and $t1,$t1,$0
+and $t0,$t0,$0
+sle $t0, $t8, $t9
+beq $t8,$t9,fineval
+ori $t1,$0,1
+fineval: and $t0,$t0,$t1
+sb $t0,res($0)
+
+1.25:
+res: 0x00000000
+
+1.26:
+res: 0x00000001
+
+1.27:
+res: 0x00000001
+
+1.28:
+res: 0x00000000
+
+1.29:
+dato1 < dato2 || dato2 == 0
+
+1.30:
+.data
+dato1: .word 30
+dato2: .word -20
+res: .space 1
+.text
+main: lw $t8,dato1($0)
+lw $t9,dato2($0)
+and $t0,$t0,$0
+and $t1,$t1,$0
+sle $t0,$t8,$t9 # $t0 = 1 si dato1 <= dato2
+bgt $t8,$0,fineval #si dato1 es mayor que 0, salta a fineval
+ori $t1,$0,1 #si dato1 es menor o igual a 0, guarda 1 en $t1
+fineval: or $t0,$t0,$t1 # El resultado es positivo si dato1 <= dato2 o dato1 <= 0
+sb $t0,res($0)
+
+1.31:
+.data
+dato1: .word 30
+dato2: .word -20
+res: .space 1
+.text
+main: lw $t8,dato1($0)
+lw $t9,dato2($0)
+and $t0,$t0,$0
+and $t1,$t1,$0
+sle $t0,$t8,$t9 # $t0 = 1 si dato1 <= dato2
+bgt $t8,$0,fineval #si dato1 es mayor que 0, salta a fineval
+ori $t1,$0,1 #si dato1 es menor o igual a 0, guarda 1 en $t1
+fineval: or $t0,$t0,$t1 # El resultado es positivo si dato1 <= dato2 o dato1 <= 0
+sb $t0,res($0)
+
+----------
+Módulo 2
+
+2.1:
+La instrucción que evalúa la condición y controla el flujo del programa es "beq $t1,$0,finsi". Equivale a if ($t1!=0).
+
+2.2:
+If: 	beq $t1,$0,finsi
+Then: 	div $t0,$t1 #t0/$t1
+	mflo $t2
+
+2.3:
+res: 0x00000047
+
+2.4:
+res: 40d, 0x00000028
+
+2.5:
+.data
+dato1: .word 40
+dato2: .word 30
+res: .space 4
+
+.text
+main:
+lw $t0, dato1($0)
+lw $t1, dato2($0)
+and $t2, $t2, $0
+
+Si: ble $t1, $0, finsi
+entonces:
+ div $t0, $t1
+ mflo $t2
+
+finsi: 
+ and $t3, $t3, $0
+ add $t3, $t1, $t0
+ add $t2, $t2, $t3
+
+sw $t2, res($0)
+
+2.6:
+VARIABLES
+  ENTERO: dato1=40; dato2=30; res;
+INICIO
+  if (dato2!=0 && dato1!=0) res=dato1/dato2;
+  res=res+dato1+dato2;
+FIN
+
+2.7:
+Condiciones:
+  beq $t1,$0,finsi
+  beq $t0,$0,finsi
+Condición en el pseudocódigo: (dato2!=0 && dato1!=0)
+
+2.8:
+If:
+  beq $t1,$0,finsi
+  beq $t0,$0,finsi
+Then:
+  div $t0, $t1
+  mflo $t2
+
+2.9:
+res: 0x00000047
+
+2.10:
+Si dato1 = 0 => res: 0x0000001e
+Si dato2 = 0 => res: 0x00000028
+
+2.11:
+.data
+ dato1: .word 40
+ dato2: .word 30
+ res: .space 4
+
+.text
+main:
+ lw $t0, dato1($0)
+ lw $t1, dato2($0)
+
+ and $t2, $t2, $0
+
+Si:
+ ble $t0, $0, finsi
+ blt $t1, $0, finsi
+entonces:
+ div $t0, $t1
+ mflo $t2
+finsi:
+ add $t3, $t0, $t1
+ add $t2, $t2, $t3
+
+sw $t2, res($0)
+
+2.12:
+VARIABLES
+  ENTERO: dato1=30; dato2=40, res;
+INICIO
+  Si (dato1 < dato2) entonces
+    res = dato1
+  Sino
+    res = dato2
+  FinSi
+FIN
+
+2.13:
+Después de ejecutar el programa. res: 30d, 0x0000001e
+Si dato1 = 35, res: 35d, 0x00000023
+
+2.14:
+"bge $8, $9, dir"
+se compone por
+"slt $1, $8, $9"
+y luego
+"beq $1, $0, dir"
+Primero compara si $8 es menor que $9, si no lo es entonces $8 es mayor o igual a $9 y en $1 se almacena 0. Si el resultado de la comparación es 0, se mueve a la dirección indicada.
+
+2.15:
+.data
+ dato1: .word 30
+ dato2: .word 40
+ res: .space 4
+
+.text
+main:
+ lw $t0, dato1($0)
+ lw $t1, dato2($0)
+ and $t2, $t2, $0
+
+Si:
+ blt $t0, $t1, sino
+ sub $t2, $t0, $t1
+ j finsi
+sino:
+ sub $t2, $t1, $t0
+
+finsi:
+ sw $t2, res($0)
+
+2.16:
+VARIABLES
+  ENTERO: dato1=30; dato2=40; dato3=-1; res;
+INICIO
+  Si (dato3 < dato1) entonces
+     res = 1
+  Sino
+     Si (dato3 <= dato2) entonces
+        res = 0
+     Sino
+        res = 1
+     FinSi
+  FinSi
+FIN
+
+2.17:
+res: 0x00000001
+Si dato1=40 y dato2=30. res: 0x00000001
+
+2.18:
+.data
+ dato1: .word 30
+ dato2: .word 40
+ dato3: .word -1
+ res: .space 4
+
+.text
+main:
+ lw $t1, dato1($0)
+ lw $t2, dato2($0)
+ lw $t3, dato3($0)
+ 
+ and $t4, $t4, $0
+
+Si:
+ blt $t3, $t1, finsi
+ bgt $t3, $t2, finsi
+entonces:
+ addi $t4, $t4, 1
+finsi:
+ sw $t4, res($0)
+
+2.19:
+ lb y la suma de 1 a la dirección de la cadena funcionan para iterar la cadena.
+ beq para comprobar si la cadena terminó
+ j para hacer una nueva iteración
+
+2.20:
+n = 4
+
+2.21:
+.data
+ tira1: .asciiz "hola"
+ .align 2
+ tira2: .asciiz "adios"
+ .align 2
+ n: .space 4
+
+.text
+main:
+  la $t0, tira1
+  la $t1, tira2
+
+  andi $t2, $t2, 0
+mientras:
+  lb $t3,0($t0)
+  beq $t3, $0, finmientras
+  lb $t3,0($t1)
+  beq $t3, $0, finmientras
+  addi $t2, $t2, 1
+  addi $t0, $t0, 1
+  addi $t1, $t1, 1
+  j mientras
+finmientras:
+  sw $t2, n($0)
+
+2.22:
+
+ 
+
